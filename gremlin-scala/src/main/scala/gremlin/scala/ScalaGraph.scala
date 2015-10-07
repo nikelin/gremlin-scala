@@ -17,12 +17,12 @@ case class ScalaGraph[G <: Graph](graph: G) {
   def addVertex(label: String, properties: (String, Any)*): ScalaVertex = {
     val labelParam = Seq(T.label, label)
     val params = properties.flatMap(pair ⇒ Seq(pair._1, pair._2.asInstanceOf[AnyRef]))
-    graph.addVertex(labelParam ++ params: _*)
+    graph.addVertex((labelParam ++ params).toArray)
   }
 
   def addVertex(properties: (String, Any)*): ScalaVertex = {
     val params = properties.flatMap(pair ⇒ Seq(pair._1, pair._2.asInstanceOf[AnyRef]))
-    graph.addVertex(params: _*)
+    graph.addVertex(params.toArray)
   }
 
   def addVertex(label: String, properties: Map[String, Any]): ScalaVertex =
@@ -40,7 +40,7 @@ case class ScalaGraph[G <: Graph](graph: G) {
     val idParam = id.toSeq flatMap (List(T.id, _))
     val labelParam = Seq(T.label, label)
     val params = properties.toSeq.flatMap(pair ⇒ Seq(pair._1, pair._2.asInstanceOf[AnyRef]))
-    graph.addVertex(idParam ++ labelParam ++ params: _*)
+    graph.addVertex((idParam ++ labelParam ++ params).toArray)
   }
 
   def +(label: String): ScalaVertex = addVertex(label)
